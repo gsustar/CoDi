@@ -1,0 +1,26 @@
+
+triton==3.1.0
+accelerate==1.4.0
+transformers==4.48.0
+diffusers==0.32.1
+safetensors==0.5.2
+tokenizers==0.21.0
+huggingface-hub==0.27.1
+pytorch-lightning==2.5.0.post0
+timm==1.0.14
+omegaconf==2.3.0
+tqdm==4.67.1
+numpy==2.2.1
+scipy==1.15.1
+pillow==10.2.0
+scikit-image==0.25.0
+requests==2.32.3
+PyYAML==6.0.2
+matplotlib==3.10.0
+pycocotools==2.0.8
+einops==0.8.0
+wandb==0.19.3
+
+--extra-index-url https://download.pytorch.org/whl/cu121
+torch==2.5.1+cu121
+torchvision==0.20.1+cu121
