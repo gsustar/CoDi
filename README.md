@@ -31,6 +31,10 @@ The key innovation is an exemplar-based conditioning module that extracts and ad
     <img src="pictures/cond.png", width=500>
 </p>
 
+
+https://github.com/user-attachments/assets/81591480-3e0f-49b2-8679-b93b941aa747
+
+
 ## Get Started
 
 ### Environment setup
@@ -70,8 +74,6 @@ Before running any of the following scripts, make sure to replace the `datadir` 
 ```
 ./run_eval.sh ../CoDi_ckpts/codi/ model000150_codi.pt
 ```
-
-### Demo
 
 ### Results
 
