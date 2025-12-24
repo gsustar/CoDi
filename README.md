@@ -9,7 +9,7 @@ University of Ljubljana, Faculty of Computer and Information Science
 [![arXiv](https://img.shields.io/badge/arXiv-2507.03367-b31b1b.svg)](https://arxiv.org/abs/2512.20153)
 
 
-[**Overveiw**](#overview) | [**Get Started**](#get-started) | [**Results**](#results) | [**Reference**](#reference) | [**Questions**](#questions)
+[**Overveiw**](#overview) | [**Get Started**](#get-started) | [**Reference**](#reference) | [**Questions**](#questions)
 
 <h1> 🚧 UNDER CONSTRUCTION 🚧 </h1>
 </div>
@@ -19,24 +19,83 @@ University of Ljubljana, Faculty of Computer and Information Science
 
 This repository contains the official PyTorch implementation of **CoDi - Exemplar-Conditioned Diffusion Model for Low-Shot Counting**
 
-CoDi generates high-quality density maps using latent diffusion, enabling accurate object localization via non-maxima suppression. 
+CoDi generates high-quality density maps using latent diffusion model, enabling accurate object localization via non-maxima suppression. 
 
 <p align="center">
-    <img src="pictures/arch.svg">
+    <img src="pictures/arch.png">
 </p>
 
 The key innovation is an exemplar-based conditioning module that extracts and adapts object prototypes within the denoising network’s intermediate layers, significantly improving location estimation.
 
 <p align="center">
-    <img src="pictures/cond.svg">
+    <img src="pictures/cond.png", width=500>
+</p>
+
+## Get Started
+
+### Environment setup
+
+Create a Python environment and install required packages:
+
+```bash
+conda create -n codi python=3.10
+conda activate codi
+
+pip install -r requirements.txt
+```
+
+### Download the datasets
+
+Download the [FSC147](https://github.com/cvlab-stonybrook/LearningToCountEverything) and [MCAC](https://github.com/ActiveVisionLab/MCAC?tab=readme-ov-file) datasets as instructed in their official repositories. For the **FSC147** datasets, make sure to also download the `annotation_FSC147_384.json` and `Train_Test_Val_FSC_147.json` and place them alongside the image directory (`images_384_VarV2`) in the directory of your choice.
+
+### Checkpoints:
+
+The checkpoints are available on [Google drive](https://drive.google.com/drive/folders/1n-gM3flvHIalTrdzrDu9vDqHgb7makOm?usp=sharing).
+
+### Training, Sampling and Evaluation
+
+Before running any of the following scripts, make sure to replace the `datadir` path in the config files to point to your data directory folder
+
+#### Training
+```
+./run_train.sh configs/config_codi.yaml
+```
+
+#### Sampling
+```
+./run_sample.sh ../CoDi_ckpts/codi/ model000150_codi.pt
+```
+
+#### Evaluation
+```
+./run_eval.sh ../CoDi_ckpts/codi/ model000150_codi.pt
+```
+
+### Demo
+
+### Results
+
+<p align="center">
+    <img src="pictures/quali.png">
 </p>
 
 
+## Reference
 
+If you found this work useful, consider citing our paper and giving this repo a ⭐ 😃
 
+```bibtex
+@misc{sustar2025codi,
+  author={Grega Šuštar, Jer Pelhan, Alan Lukežič, Matej Kristan},
+  title={CoDi - Exemplar-Conditioned Diffusion Model for Low-Shot Counting}, 
+  year={2025},
+  eprint={2512.20153},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2512.20153}, 
+}
+```
 
+## Questions
 
-
-
-
-
+For issues or questions, please open a GitHub [issue](https://github.com/gsustar/CoDi/issues) or email the author directly.

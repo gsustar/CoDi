@@ -30,7 +30,6 @@ diffusion:
 model:
   type: "UNet"
   params:
-    # input_size: 64
     in_channels: 164
     model_channels: 192
     out_channels: 4
@@ -103,9 +102,6 @@ data:
       mosaic_avgbbox_area_lim: 720
       sigma: 0.5
       target_minmax_norm: True
-      # tlrb_center_sample: False
-      # tlrb_point_sample: False
-      # tlrb_radius: 8
       with_tlrb: False
 
   dataloader:
@@ -114,7 +110,6 @@ data:
       num_workers: 8
 
 train:
-  # only_tlrb: False
   lr: 1.0e-4
   num_epochs: 200
   grad_clip: 1.0
@@ -128,7 +123,6 @@ train:
   seed: null
 
 log:
-  # logdir: /d/hpc/projects/FRI/DL/gs1121/logs/
   logdir: ./logs/
   wandb_mode: offline
   log_interval: 100
