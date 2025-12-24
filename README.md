@@ -58,7 +58,7 @@ The checkpoints are available on [Google drive](https://drive.google.com/drive/f
 
 ### Training, Sampling and Evaluation
 
-Before running any of the following scripts, make sure to replace the `datadir` path in the config files to point to your data directory folder
+Before running any of the following scripts, make sure to replace the `datadir` path in the config files to point to your data directory folder. For additional arguments check the `train.py`, `sample.py` and `eval.py` scripts.
 
 #### Training
 ```
@@ -66,13 +66,29 @@ Before running any of the following scripts, make sure to replace the `datadir` 
 ```
 
 #### Sampling
+
+For sampling on the **MCAC** dataset, create a new folder `sample` (in the same directory as `train`, `val` and `test`) with all the images you would like to sample on (or just copy the contents of  `val` and  `test` into it).
+
 ```
-./run_sample.sh ../CoDi_ckpts/codi/ model000150_codi.pt
+python sample.py \
+    --expdir ../CoDi_ckpts/codi/ \
+    --checkpoint model000150_codi.pt \
+    --use_fp16 \
+    --allow_resizing \
+    --allow_ttn \
+    --ids image-ids \                   # 7 6653 1123 ... 
+    --timestep_respacing 25
 ```
 
 #### Evaluation
 ```
-./run_eval.sh ../CoDi_ckpts/codi/ model000150_codi.pt
+python eval.py 
+    --expdir ../CoDi_ckpts/codi/ \
+    --checkpoint model000150_codi.pt \
+    --use_fp16 \
+    --allow_resizing \
+    --allow_ttn \
+    --timestep_respacing 25
 ```
 
 ### Results

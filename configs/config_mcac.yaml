@@ -1,0 +1,133 @@
+###################################################   Variables   ##################################################
+define: &learn_sigma True
+
+###################################################    Config     ##################################################
+name: mcac4
+
+vae:
+  enabled: True
+  path: "stabilityai/sdxl-vae"
+  single_ch: False
+
+diffusion:
+  type: "Denoise"
+  params:
+    diffusion_steps: 1000
+    noise_schedule: scaled_linear
+    learn_sigma: *learn_sigma
+    sigma_small: False
+    use_kl: False
+    parametrization: "v"
+    rescale_timesteps: False
+    rescale_learned_sigmas: False
+    timestep_respacing: ""
+    lmbd_vlb: 0.001
+    lmbd_cb_count: 0.0
+    t_mse_weighting_scheme: "uniform"
+    t_cb_count_weighting_scheme: "uniform"
+    enforce_zero_terminal_snr: True
+
+model:
+  type: "UNet"
+  params:
+    in_channels: 164
+    model_channels: 192
+    out_channels: 4
+    num_res_blocks: 2
+    attention_resolutions: [1]
+    dropout: 0.0
+    channel_mult: [1, 2, 4]
+    conv_resample: True
+    dims: 2
+    y_dim: null
+    context_dim: 768
+    use_checkpoint: True
+    num_heads: -1
+    num_head_channels: 64
+    num_heads_upsample: -1
+    use_scale_shift_norm: True
+    resblock_updown: True
+    learn_count: False
+    learn_sigma: *learn_sigma
+    transformer_depth: 1
+    initial_ds: 0.125
+    st_roi_encode_size: False
+    st_roi_output_size: 1
+    st_unfold_roi: False
+    disable_middle_transformer: True
+    enhanced_spatial_transformer: True
+    nx_enhanced: 1
+    disable_self_attentions: null
+    deformable_self_attn: False
+    topk: -1
+
+conditioner:
+  embedders:
+    - type: "RADIOImageEmbedder"
+      input_keys: ["img"]
+      is_trainable: True
+      reference_key: "z_img"
+      params:
+        model_version: "radio_v2.5-l"
+        out_channels: 160
+        resize: True
+
+    - type: "BBoxAppendEmbedder"
+      input_keys: ["bboxes"]
+      is_trainable: False
+      custom_outkey: "bboxes"
+      custom_catdim: 1
+      ucg_rate: 0.0
+    
+    - type: "BBoxSizeEmbedder"
+      input_keys: ["bboxes"]
+      is_trainable: True
+      ucg_rate: 0.0
+      params:
+        outdim: 768
+
+data:
+  dataset:
+    name: "MCAC"
+    params:
+      datadir: /d/hpc/projects/FRI/DL/gs1121/MCAC/
+      n_exemplars: 3
+      image_size: 512
+      occ_limit: 70
+      M1: False
+      hflip_p: 0.5
+      vflip_p: 0.0
+      mosaic_p: 0.5
+      mosaic_avgbbox_h_lim: 50
+      mosaic_avgbbox_w_lim: 50
+      mosaic_avgbbox_area_lim: 720
+      sigma: 0.5
+      target_minmax_norm: True
+      tlrb_center_sample: False
+      tlrb_point_sample: False
+      tlrb_radius: 8
+      with_tlrb: False
+
+  dataloader:
+    params:
+      batch_size: 16
+      num_workers: 8
+
+train:
+  lr: 1.0e-4
+  num_epochs: 200
+  grad_clip: 1.0
+  ema_rate: 0.9999
+  validation_interval: 10
+  resume_checkpoint: null
+  weight_decay: 0.0001
+  lr_scheduler: warmup_cosine_anneal
+  overfit: False
+  mixed_precision: False
+  seed: null
+
+log:
+  logdir: ./logs/
+  wandb_mode: online
+  log_interval: 100
+  save_interval: 50
